@@ -16,7 +16,12 @@ class AppModule {
     @Singleton
     @Provides
     @Named(AppConstants.BASE_URL)
-    fun provideBaseUrl() = BuildConfig.BASE_URL
+    fun provideFirstBaseUrl() = BuildConfig.BASE_URL
+
+    @Singleton
+    @Provides
+    @Named(AppConstants.BASE_URL_2)
+    fun provideSecondBaseUrl() = BuildConfig.BASE_URL_2
 
     @Singleton
     @Provides

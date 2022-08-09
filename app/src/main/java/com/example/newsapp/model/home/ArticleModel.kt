@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class ArticleModel (
+    var source : SourceModel? = null,
     var author: String?= null,
     var title: String? = null,
     var description : String? = null,
@@ -12,16 +13,17 @@ data class ArticleModel (
     var publishedAt: String?  = null
 ):Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readParcelable(SourceModel::class.java.classLoader),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
-    ) {
+        parcel.readString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(source, flags)
         parcel.writeString(author)
         parcel.writeString(title)
         parcel.writeString(description)

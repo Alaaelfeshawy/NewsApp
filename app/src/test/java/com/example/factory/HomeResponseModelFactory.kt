@@ -1,6 +1,6 @@
 package com.example.factory
 
-import com.example.domain.model.home.response.HomeResponse
+import com.example.domain.model.home.response.LatestNewsResponse
 import com.example.newsApp.model.home.response.HomeResponseModel
 
 object HomeResponseModelFactory {
@@ -15,8 +15,8 @@ object HomeResponseModelFactory {
         )
     }
 
-    fun generateDataForHomeResponseDomain(): HomeResponse {
-        return HomeResponse(
+    fun generateDataForHomeResponseDomain(): LatestNewsResponse {
+        return LatestNewsResponse(
             "status",
             "source",
             "sortBy",

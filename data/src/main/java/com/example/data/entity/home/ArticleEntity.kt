@@ -1,6 +1,7 @@
 package com.example.data.entity.home
 
 data class ArticleEntity (
+    var source: SourceEntity ? =null,
     var author: String?= null,
     var title: String? = null,
     var description : String? = null,

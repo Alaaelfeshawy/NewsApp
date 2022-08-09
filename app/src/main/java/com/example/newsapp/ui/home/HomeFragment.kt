@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentHomeBinding
+import com.example.newsapp.databinding.LatestNewsItemBinding
+import com.example.newsapp.databinding.TopNewsItemBinding
+import com.example.newsapp.model.home.ArticleModel
+import com.example.newsapp.ui.base.BaseAdapter
 import com.example.newsapp.ui.base.BaseFragment
 import com.example.newsapp.ui.util.Util
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,24 +21,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(requireActivity())[HomeViewModel::class.java]
     }
-//    private val adapter: BaseAdapter<ArticleModel,ItemArticleBinding> by lazy {
-//        BaseAdapter(R.layout.item_article,{
-//            val bundle = Bundle()
-//            bundle.putParcelable(AppConstants.ARTICLE_MODEL,it)
-//            navController?.navigate(R.id.action_homeFragment_to_newsDetailsFragment , bundle)
-//        }){
-//            HomeViewHolder(it)
-//        }
-//    }
+    private val adapter: BaseAdapter<ArticleModel, LatestNewsItemBinding> by lazy {
+        BaseAdapter(R.layout.latest_news_item,{
+
+        }){
+            LatestNewsViewHolder(it)
+        }
+    }
+    private val topNewsAdapter: BaseAdapter<ArticleModel, TopNewsItemBinding> by lazy {
+        BaseAdapter(R.layout.top_news_item,{
+
+        }){
+            TopNewsViewHolder(it)
+        }
+    }
 
     override val layoutId: Int
         get() = R.layout.fragment_home
 
     override fun viewSetup() {
         _binding = viewDataBinding
-        viewModel.getHomeData()
-//        binding.articlesRecyclerView.adapter = adapter
-        binding.tryAgain.setOnClickListener {viewModel.getHomeData()}
+        viewModel.getLatestNews()
+        viewModel.getTopNews()
+        binding.articlesRecyclerView.adapter = adapter
+        binding.topNewRecyclerView.adapter = topNewsAdapter
+        binding.tryAgain.setOnClickListener {viewModel.getLatestNews()}
         binding.mainSwipeRefreshLayout.setOnRefreshListener(this)
         binding.mainSwipeRefreshLayout.setColorSchemeResources(
             R.color.black,
@@ -48,18 +59,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
         viewModel.homeData.observe(viewLifecycleOwner){
             it?.let {
                 binding.articlesRecyclerView.visibility=View.VISIBLE
-//                adapter.setDataList(it)
+                adapter.setDataList(it)
             }
         }
-        viewModel.filteredList.observe(viewLifecycleOwner){
-            value ->
-            if(value?.first.isNullOrEmpty()){
-                binding.emptyResults.visibility=View.VISIBLE
-                binding.articlesRecyclerView.visibility=View.GONE
-            }else{
-                binding.emptyResults.visibility=View.GONE
-                binding.articlesRecyclerView.visibility=View.VISIBLE
-//                value?.first?.let { adapter.setDataList(it, value.second) }
+        viewModel.topNews.observe(viewLifecycleOwner){
+            it?.let {
+                binding.topNewRecyclerView.visibility=View.VISIBLE
+                topNewsAdapter.setDataList(it)
             }
         }
         viewModel.stateListener.loading.observe(viewLifecycleOwner){
@@ -98,7 +104,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
 
     override fun onRefresh() {
         binding.mainSwipeRefreshLayout.isRefreshing = true
-        viewModel.getHomeData()
+        viewModel.getLatestNews()
+        viewModel.getTopNews()
         binding.mainSwipeRefreshLayout.isRefreshing = false
     }
 }
