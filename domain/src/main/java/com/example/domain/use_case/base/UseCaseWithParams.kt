@@ -1,10 +1,7 @@
 package com.example.domain.use_case.base
 
 import com.example.domain.exception.traceErrorException
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 abstract class UseCaseWithParams<T, Params>() {
 
@@ -14,19 +11,25 @@ abstract class UseCaseWithParams<T, Params>() {
     fun invoke(scope: CoroutineScope, params: List<Params>, onResult: UseCaseCallback<T>) {
         val results = ArrayList<T>()
         scope.launch {
-            try {
-                params.forEach {
-                   val result =  async { run(it) }.await()
-                    results.add(result)
-                    onResult.onSuccess(results)
+            supervisorScope {
+//                        val task = async {run(params[0])}
+                        try {
+                             params.forEach {
+                               val result =  async { run(it) }.await()
+                                 results.add(result)
+                            }
+                            onResult.onSuccess(results)
+//                            onResult.onSuccess(task.await())
+                        } catch (e: Throwable) {
+                            e.printStackTrace()
+                            onResult.onError(traceErrorException(e))
+                        }catch (e: CancellationException) {
+                            e.printStackTrace()
+                            onResult.onError(traceErrorException(e))
+                        }
                 }
-            } catch (e: CancellationException) {
-                e.printStackTrace()
-                onResult.onError(traceErrorException(e))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                onResult.onError(traceErrorException(e))
-            }
+
+
         }
     }
 

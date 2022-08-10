@@ -134,4 +134,7 @@ dependencies {
     def pull_refresh_version = "1.1.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$pull_refresh_version"
 
+    implementation 'ch.acra:acra:4.9.2'
+
+
 }

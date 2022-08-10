@@ -45,7 +45,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
         viewModel.getTopNews()
         binding.articlesRecyclerView.adapter = adapter
         binding.topNewRecyclerView.adapter = topNewsAdapter
-        binding.tryAgain.setOnClickListener {viewModel.getLatestNews()}
+        binding.tryAgain.setOnClickListener {
+            viewModel.getLatestNews()
+            viewModel.getTopNews()
+        }
         binding.mainSwipeRefreshLayout.setOnRefreshListener(this)
         binding.mainSwipeRefreshLayout.setColorSchemeResources(
             R.color.black,
@@ -58,13 +61,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
     override fun viewModelSetup() {
         viewModel.homeData.observe(viewLifecycleOwner){
             it?.let {
-                binding.articlesRecyclerView.visibility=View.VISIBLE
+                binding.mainView.visibility=View.VISIBLE
                 adapter.setDataList(it)
             }
         }
         viewModel.topNews.observe(viewLifecycleOwner){
             it?.let {
-                binding.topNewRecyclerView.visibility=View.VISIBLE
+                binding.mainView.visibility=View.VISIBLE
                 topNewsAdapter.setDataList(it)
             }
         }
@@ -72,10 +75,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
             it?.let {
                if(it){
                    binding.noInternetLayout.visibility=View.GONE
-                   binding.articlesRecyclerView.visibility=View.GONE
-                   Util.showLoading(requireContext())
+                   binding.mainView.visibility=View.GONE
+                   binding.progressBar.visibility=View.VISIBLE
+//                   Util.showLoading(requireContext())
                }else{
-                   Util.dismissLoading()
+                   binding.progressBar.visibility=View.GONE
+//                   Util.dismissLoading()
                }
             }
         }
@@ -93,10 +98,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
             it?.let {
                 if(it){
                     binding.noInternetLayout.visibility=View.VISIBLE
-                    binding.articlesRecyclerView.visibility=View.GONE
+                    binding.mainView.visibility=View.GONE
                 }else{
                     binding.noInternetLayout.visibility=View.GONE
-                    binding.articlesRecyclerView.visibility=View.VISIBLE
+                    binding.mainView.visibility=View.VISIBLE
                 }
             }
         }

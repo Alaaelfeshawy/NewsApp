@@ -31,14 +31,14 @@ class HomeViewModel  @Inject constructor(
      val topNews: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
      val error: SingleLiveEvent<String> = SingleLiveEvent()
      val noInternet: SingleLiveEvent<Boolean> = SingleLiveEvent()
-     var filteredList = SingleLiveEvent<Pair<ArrayList<ArticleModel>,String>>()
 
     fun getLatestNews(){
         stateListener.loading.value = true
         getLatestNewsUseCase.invoke(
             viewModelScope,
             listOf(GetLatestNewsUseCase.Params("the-next-web"),
-                GetLatestNewsUseCase.Params("bbc-news")),
+                GetLatestNewsUseCase.Params("bbc-news")
+            ),
             object : UseCaseCallback<LatestNewsResponse?> {
                 override fun onSuccess(t: ArrayList<LatestNewsResponse?>) {
                     val combineLists = ArrayList<ArticleModel>()
@@ -50,6 +50,7 @@ class HomeViewModel  @Inject constructor(
                 }
                 override fun onError(throwable: ApiError) {
                     stateListener.errorMessage.value = throwable.getErrorMessage()
+                    noInternet.value = throwable.errorStatus == ApiError.ErrorStatus.NO_CONNECTION
                     stateListener.loading.value = false
                 }
 
@@ -74,6 +75,7 @@ class HomeViewModel  @Inject constructor(
                 }
                 override fun onError(throwable: ApiError) {
                     stateListener.errorMessage.value = throwable.getErrorMessage()
+                    noInternet.value = throwable.errorStatus == ApiError.ErrorStatus.NO_CONNECTION
                     stateListener.loading.value = false
                 }
 

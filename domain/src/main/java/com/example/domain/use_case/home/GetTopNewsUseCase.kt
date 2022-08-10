@@ -1,6 +1,5 @@
 package com.example.domain.use_case.home
 
-import com.example.domain.model.home.response.LatestNewsResponse
 import com.example.domain.model.home.response.TopNewsResponse
 import com.example.domain.repository.IHomeRepository
 import com.example.domain.use_case.base.UseCaseWithParams
