@@ -1,7 +1,11 @@
 package com.example.domain.repository
 
-import com.example.domain.model.home.response.HomeResponse
+import com.example.domain.model.home.response.LatestNewsResponse
+import com.example.domain.model.home.response.TopNewsResponse
+import kotlinx.coroutines.Deferred
+
 
 interface IHomeRepository {
-    suspend fun homeData(source: String): HomeResponse?
+    suspend fun getTopNews(country: String): TopNewsResponse
+    suspend fun getLatestNews(source: String): LatestNewsResponse
 }

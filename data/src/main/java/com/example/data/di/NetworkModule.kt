@@ -56,6 +56,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    @Named(AppConstants.API_VERSION_1)
     fun providesRetrofit(
         moshiConverterFactory: Converter.Factory?,
         okHttpClient: OkHttpClient?,
@@ -65,13 +66,35 @@ class NetworkModule {
             .baseUrl(baseUrl)
             .client(okHttpClient!!)
             .addConverterFactory(moshiConverterFactory!!)
-//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideHomeApi(retrofit: Retrofit): HomeApi {
+    @Named(AppConstants.API_VERSION_2)
+    fun providesRetrofit2(
+        moshiConverterFactory: Converter.Factory?,
+        okHttpClient: OkHttpClient?,
+        @Named(AppConstants.BASE_URL_2) baseUrl: String
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(okHttpClient!!)
+            .addConverterFactory(moshiConverterFactory!!)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @Named(AppConstants.HOME_API_VERSION_1)
+    fun provideHomeApi( @Named(AppConstants.API_VERSION_1) retrofit: Retrofit): HomeApi {
+        return retrofit.create(HomeApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    @Named(AppConstants.HOME_API_VERSION_2)
+    fun provideHomeApi2(@Named(AppConstants.API_VERSION_2) retrofit: Retrofit): HomeApi {
         return retrofit.create(HomeApi::class.java)
     }
 

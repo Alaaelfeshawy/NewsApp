@@ -1,7 +1,7 @@
 package com.example.data.factory
 
 import com.example.data.entity.home.response.HomeResponseEntity
-import com.example.domain.model.home.response.HomeResponse
+import com.example.domain.model.home.response.LatestNewsResponse
 
 object HomeResponseEntityFactory {
     const val NUM_ATTRIBUTES=4
@@ -15,8 +15,8 @@ object HomeResponseEntityFactory {
         )
     }
 
-    fun generateDataForHomeResponseDomain(): HomeResponse {
-        return HomeResponse(
+    fun generateDataForHomeResponseDomain(): LatestNewsResponse {
+        return LatestNewsResponse(
             "status",
             "source",
             "sortBy",

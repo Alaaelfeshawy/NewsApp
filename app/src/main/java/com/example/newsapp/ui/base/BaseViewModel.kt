@@ -11,5 +11,6 @@ abstract class BaseViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        stateListener.loading.value = false
     }
 }
