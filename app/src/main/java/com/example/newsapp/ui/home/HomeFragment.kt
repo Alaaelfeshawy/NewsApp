@@ -3,6 +3,7 @@ package com.example.newsapp.ui.home
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentHomeBinding
@@ -11,7 +12,6 @@ import com.example.newsapp.databinding.TopNewsItemBinding
 import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.ui.base.BaseAdapter
 import com.example.newsapp.ui.base.BaseFragment
-import com.example.newsapp.ui.util.Util
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,14 +23,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
     }
     private val adapter: BaseAdapter<ArticleModel, LatestNewsItemBinding> by lazy {
         BaseAdapter(R.layout.latest_news_item,{
-
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(it))
         }){
             LatestNewsViewHolder(it)
         }
     }
     private val topNewsAdapter: BaseAdapter<ArticleModel, TopNewsItemBinding> by lazy {
         BaseAdapter(R.layout.top_news_item,{
-
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(it))
         }){
             TopNewsViewHolder(it)
         }

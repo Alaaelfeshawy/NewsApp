@@ -8,7 +8,7 @@ object AppConstants {
     const val API_VERSION_2 ="API_VERSION_2"
     const val HOME_API_VERSION_1 = "HOME_API_VERSION_1"
     const val HOME_API_VERSION_2 = "HOME_API_VERSION_2"
-    const val URL="URL"
-    const val ARTICLE_MODEL="ARTICLE_MODEL"
+    const val URL="url"
+    const val ARTICLE_MODEL="articleModel"
 
 }
