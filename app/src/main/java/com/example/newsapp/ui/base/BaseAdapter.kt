@@ -11,16 +11,13 @@ class BaseAdapter<T,Y:ViewBinding>(private val design :Int ,
                                    val viewHolderFactor :(Y)-> BaseViewHolder<Y,T>) : RecyclerView.Adapter<BaseViewHolder<Y, T>>() {
     private lateinit var binding:ViewBinding
     var list: List<T> = ArrayList()
-    var x :String ?=null
 
-    fun setDataList(list: List<T> , x:String ?= null){
+    fun setDataList(list: List<T>){
         this.list = list
-        this.x = x
         notifyDataSetChanged()
     }
-    fun setDataList(list: ArrayList<T> , x:String ?= null){
+    fun setDataList(list: ArrayList<T> ){
         this.list = list
-        this.x = x
         notifyDataSetChanged()
     }
 
@@ -30,7 +27,7 @@ class BaseAdapter<T,Y:ViewBinding>(private val design :Int ,
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<Y, T>, position: Int) {
-        list[position]?.let { holder.onBind(position, it , x) }
+        list[position]?.let { holder.onBind(position, it) }
         holder.itemView.setOnClickListener {
             list[position]?.let { it1 -> itemClickListener?.invoke(it1) }
         }

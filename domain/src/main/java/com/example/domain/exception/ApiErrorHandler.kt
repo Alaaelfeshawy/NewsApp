@@ -58,6 +58,7 @@ fun traceErrorException(throwable: Throwable?): ApiError {
         }
 
         is IOException -> {
+
             ApiError(throwable.message, ApiError.ErrorStatus.NO_CONNECTION)
         }
 
