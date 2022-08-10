@@ -1,15 +1,25 @@
 package com.example.newsapp.ui.home
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.ApiError
+import com.example.domain.model.home.Article
 import com.example.domain.model.home.response.LatestNewsResponse
 import com.example.domain.model.home.response.TopNewsResponse
 import com.example.domain.use_case.base.UseCaseCallback
 import com.example.domain.use_case.home.GetLatestNewsUseCase
 import com.example.domain.use_case.home.GetTopNewsUseCase
+import com.example.domain.use_case.room.AddArticleToDBUseCase
+import com.example.domain.use_case.room.DeleteArticleFromDBUseCase
+import com.example.domain.use_case.room.IsArticleExistInDbUseCase
+import com.example.newsapp.databinding.TopNewsItemBinding
 import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.response.LatestNewsResponseModelMapper
 import com.example.newsapp.model.home.response.TopNewsResponseModelMapper
+import com.example.newsapp.model.room.entity.ArticleModelMapper
 import com.example.newsapp.util.ErrorMessageUtils
 import com.example.newsapp.util.SingleLiveEvent
 import com.example.newsapp.util.StateListener
@@ -20,16 +30,20 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel  @Inject constructor(
     stateListener: StateListener,
-    errorMessageUtils: ErrorMessageUtils,
     private val getLatestNewsUseCase: GetLatestNewsUseCase,
     private val getTopNewsUseCase: GetTopNewsUseCase,
+    private val addArticleToDBUseCase: AddArticleToDBUseCase,
+    private val isArticleExistInDbUseCase: IsArticleExistInDbUseCase,
+    private val deleteArticleFromDBUseCase: DeleteArticleFromDBUseCase
+
 ) :  BaseViewModel(
     stateListener,
-    errorMessageUtils,
+    addArticleToDBUseCase,
+    isArticleExistInDbUseCase,
+    deleteArticleFromDBUseCase
 ) {
      val homeData: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
      val topNews: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
-     val error: SingleLiveEvent<String> = SingleLiveEvent()
      val noInternet: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun getLatestNews(){
@@ -83,5 +97,6 @@ class HomeViewModel  @Inject constructor(
             },
         )
     }
+
 
 }

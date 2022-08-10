@@ -10,5 +10,6 @@ object AppConstants {
     const val HOME_API_VERSION_2 = "HOME_API_VERSION_2"
     const val URL="url"
     const val ARTICLE_MODEL="articleModel"
+    const val DB_NAME="news_app"
 
 }

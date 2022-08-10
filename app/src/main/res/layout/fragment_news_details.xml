@@ -48,15 +48,15 @@
                             android:src="@drawable/placeholder" />
 
                         <ImageButton
+                            android:id="@+id/bookmark_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_e_bookmark_border"
-                            android:background="@android:color/transparent"
-                            android:layout_alignParentEnd="true"
                             android:layout_alignParentTop="true"
-                            android:layout_marginEnd="12dp"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginTop="12dp"
-                            />
+                            android:layout_marginEnd="12dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_e_bookmark_border" />
                         <TextView
                             android:id="@+id/article_date"
                             android:layout_width="wrap_content"

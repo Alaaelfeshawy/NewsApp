@@ -1,10 +1,11 @@
 plugins {
+    id 'kotlin-kapt'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-android-extensions'
 
 }
 
@@ -86,10 +87,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:${life_cycle_version}"
 
     // Room
-    def room_version = "2.4.2"
+    def room_version = "2.4.3"
     implementation "androidx.room:room-runtime:${room_version}"
-    kapt"androidx.room:room-compiler:${room_version}"
-//    implementation"androidx.room:room-rxjava2:${room_version}"
+    implementation 'androidx.room:room-ktx:2.4.3'
+    kapt "androidx.room:room-compiler:${room_version}"
 
     // Retrofit
     def retrofit_version ="2.9.0"
@@ -118,6 +119,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso_core_version}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
     implementation "com.squareup.okhttp3:okhttp:4.9.3"
 
