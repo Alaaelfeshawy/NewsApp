@@ -4,7 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.ViewDataBinding
+import com.example.domain.model.home.Article
 import com.example.newsapp.R
+import com.example.newsapp.databinding.LatestNewsItemBinding
+import com.example.newsapp.databinding.TopNewsItemBinding
+import com.example.newsapp.ui.base.BaseViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -35,4 +40,31 @@ object Util {
         val formatter2: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd,yyyy")
         return dateTime.format(formatter2)
     }
+
+    private fun <T : ViewDataBinding> updateBookmarkIcon(value : Boolean, binding: T, context: Context){
+        if (value){
+            when(binding){
+                is LatestNewsItemBinding ->binding.bookmark.setImageDrawable(context.getDrawable(R.drawable.ic_fill_bookmark))
+                is TopNewsItemBinding ->binding.bookmark.setImageDrawable(context.getDrawable(R.drawable.ic_fill_bookmark))
+            }
+
+        }else{
+            when(binding){
+                is LatestNewsItemBinding ->binding.bookmark.setImageDrawable(context.getDrawable(R.drawable.ic_e_bookmark_border))
+                is TopNewsItemBinding ->binding.bookmark.setImageDrawable(context.getDrawable(R.drawable.ic_e_bookmark_border))
+            }
+        }
+    }
+
+    fun <T : ViewDataBinding> updateUI(article: Article, binding: T , viewModel : BaseViewModel , context: Context){
+        viewModel.isArticleExistInDb(article){
+            updateBookmarkIcon(it,binding , context)
+        }
+    }
+
+    fun <T : ViewDataBinding> checkIfExistAndUpdateUI(article: Article, binding: T ,
+                                                      viewModel : BaseViewModel , context: Context){
+        viewModel.isArticleExistInDbAnUpdate(article){ updateBookmarkIcon(it,binding,context) }
+    }
+
 }

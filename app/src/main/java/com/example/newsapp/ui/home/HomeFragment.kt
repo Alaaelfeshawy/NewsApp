@@ -18,6 +18,9 @@ import com.example.newsapp.ui.base.BaseFragment
 import com.example.newsapp.ui.bookmark.BookmarkFragmentDirections
 import com.example.newsapp.ui.home.view_holder.LatestNewsViewHolder
 import com.example.newsapp.ui.home.view_holder.TopNewsViewHolder
+import com.example.newsapp.ui.util.Util
+import com.example.newsapp.ui.util.Util.checkIfExistAndUpdateUI
+import com.example.newsapp.ui.util.Util.updateUI
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,10 +36,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
         }){
             LatestNewsViewHolder(it , { model , binding->
                 val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { articleModel ->checkIfExistAndUpdateUI(articleModel,binding)}
+                article?.let { articleModel ->checkIfExistAndUpdateUI(articleModel,binding,viewModel,requireContext())}
             }){ model , binding->
                 val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { data -> updateUI(data, binding)}
+                article?.let { data -> updateUI(data, binding, viewModel,requireContext())}
             }
         }
     }
@@ -46,11 +49,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(it))
         }){
             TopNewsViewHolder(it,requireContext(),{ model , binding->
-                val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { articleModel ->checkIfExistAndUpdateUI(articleModel,binding)}
+                ArticleModelMapper.mapper.toDomain(model)?.let {
+                    checkIfExistAndUpdateUI(it,binding,viewModel,requireContext())
+                }
             }){ model , binding->
-                val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { data -> updateUI(data, binding)}
+               ArticleModelMapper.mapper.toDomain(model)?.let {
+                    updateUI(it, binding,viewModel,requireContext())
+                }
             }
         }
     }
@@ -122,31 +127,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
                     binding.noInternetLayout.visibility=View.GONE
                     binding.mainView.visibility=View.VISIBLE
                 }
-            }
-        }
-    }
-
-    private fun <T : ViewDataBinding> updateUI(article:Article , binding: T){
-        viewModel.isArticleExistInDb(article){
-            updateUi(it,binding)
-        }
-    }
-
-    private fun <T : ViewDataBinding> checkIfExistAndUpdateUI(article:Article , binding: T){
-        viewModel.isArticleExistInDbAnUpdate(article){ updateUi(it,binding) }
-    }
-
-    private fun <T : ViewDataBinding> updateUi(value : Boolean , binding: T){
-        if (value){
-            when(binding){
-                is LatestNewsItemBinding ->binding.bookmark.setImageDrawable(requireContext().getDrawable(R.drawable.ic_fill_bookmark))
-                is TopNewsItemBinding ->binding.bookmark.setImageDrawable(requireContext().getDrawable(R.drawable.ic_fill_bookmark))
-            }
-
-        }else{
-            when(binding){
-                is LatestNewsItemBinding ->binding.bookmark.setImageDrawable(requireContext().getDrawable(R.drawable.ic_e_bookmark_border))
-                is TopNewsItemBinding ->binding.bookmark.setImageDrawable(requireContext().getDrawable(R.drawable.ic_e_bookmark_border))
             }
         }
     }

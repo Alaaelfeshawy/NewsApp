@@ -2,6 +2,7 @@ package com.example.data.di
 
 import com.example.data.BuildConfig
 import com.example.data.source.remote.HomeApi
+import com.example.data.source.remote.SearchApi
 import com.example.domain.util.AppConstants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -96,6 +97,12 @@ class NetworkModule {
     @Named(AppConstants.HOME_API_VERSION_2)
     fun provideHomeApi2(@Named(AppConstants.API_VERSION_2) retrofit: Retrofit): HomeApi {
         return retrofit.create(HomeApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSearchApi(@Named(AppConstants.API_VERSION_2) retrofit: Retrofit): SearchApi {
+        return retrofit.create(SearchApi::class.java)
     }
 
 }

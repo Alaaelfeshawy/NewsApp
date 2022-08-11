@@ -14,6 +14,7 @@ import com.example.newsapp.ui.base.BaseAdapter
 import com.example.newsapp.ui.base.BaseFragment
 import com.example.newsapp.ui.home.view_holder.LatestNewsViewHolder
 import com.example.newsapp.ui.home.view_holder.TopNewsViewHolder
+import com.example.newsapp.ui.util.Util
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,17 +30,12 @@ class BookmarkFragment :  BaseFragment<FragmentBookmarkBinding>() {
         }){
             LatestNewsViewHolder(it , {
                     model,_->
-                val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { it1 -> viewModel.deleteArticleFromDb(it1) }
-            }){ model , binding->
-                val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { it1 -> viewModel.isArticleExistInDb(it1){
-                    if (it){
-                        binding.bookmark.setImageDrawable(requireContext().getDrawable(com.example.newsapp.R.drawable.ic_fill_bookmark))
-                    }else{
-                        binding.bookmark.setImageDrawable(requireContext().getDrawable(com.example.newsapp.R.drawable.ic_e_bookmark_border))
-                    }
+                ArticleModelMapper.mapper.toDomain(model)?.let {
+                    viewModel.deleteArticleFromDb(it)
                 }
+            }){ model , binding->
+                ArticleModelMapper.mapper.toDomain(model)?.let {
+                    Util.updateUI(it,binding,viewModel,requireContext())
                 }
             }
         }
