@@ -26,7 +26,11 @@
         tools:layout="@layout/fragment_search" >
         <action
             android:id="@+id/action_searchFragment_to_newsDetailsFragment"
-            app:destination="@id/newsDetailsFragment" />
+            app:destination="@id/newsDetailsFragment">
+            <argument
+                android:name="articleModel"
+                app:argType="com.example.newsapp.model.home.ArticleModel" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
