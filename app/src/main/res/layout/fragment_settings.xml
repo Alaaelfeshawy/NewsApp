@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment"
-    android:layout_marginTop="100dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/settings" />
+        android:orientation="vertical"
+        tools:context=".ui.settings.SettingsFragment"
+        android:background="@color/background"
+        >
 
-</FrameLayout>
+        <Switch
+            android:id="@+id/dark_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dark_mode"
+            android:textColor="@color/textColor"
+            android:checked="false"
+            android:textOff="OFF"
+            android:textOn="ON"
+            android:switchMinWidth="56dp"
+            android:layout_margin="12dp"
+            android:theme="@style/SCBSwitch"
+            tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
+
+    </LinearLayout>
+</layout>

@@ -11,5 +11,6 @@ object AppConstants {
     const val URL="url"
     const val ARTICLE_MODEL="articleModel"
     const val DB_NAME="news_app"
+    const val SHARED_PREFERENCE="SHARED_PREFERENCE"
 
 }

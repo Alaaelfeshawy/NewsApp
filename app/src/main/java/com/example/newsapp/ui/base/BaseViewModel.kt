@@ -8,6 +8,7 @@ import com.example.domain.use_case.base.UseCaseCallback
 import com.example.domain.use_case.room.AddArticleToDBUseCase
 import com.example.domain.use_case.room.DeleteArticleFromDBUseCase
 import com.example.domain.use_case.room.IsArticleExistInDbUseCase
+import com.example.domain.use_case.shared_pref.GetAppModeUseCase
 import com.example.newsapp.util.ErrorMessageUtils
 import com.example.newsapp.util.SingleLiveEvent
 import com.example.newsapp.util.StateListener
@@ -16,8 +17,9 @@ abstract class BaseViewModel(
     var stateListener: StateListener,
     private val addArticleToDBUseCase: AddArticleToDBUseCase,
     private val isArticleExistInDbUseCase: IsArticleExistInDbUseCase,
-    private val deleteArticleFromDBUseCase: DeleteArticleFromDBUseCase
-) : ViewModel() {
+    private val deleteArticleFromDBUseCase: DeleteArticleFromDBUseCase,
+    private val getAppModeUseCase: GetAppModeUseCase,
+    ) : ViewModel() {
 
     fun addArticleToDB(article: Article){
         addArticleToDBUseCase.invoke(
@@ -97,6 +99,10 @@ abstract class BaseViewModel(
                 }
             }
         )
+    }
+
+    fun getAppMode() : Boolean{
+        return getAppModeUseCase.getAppMode()
     }
 
     override fun onCleared() {

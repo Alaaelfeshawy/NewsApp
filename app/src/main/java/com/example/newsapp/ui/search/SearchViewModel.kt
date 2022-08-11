@@ -8,6 +8,7 @@ import com.example.domain.use_case.room.AddArticleToDBUseCase
 import com.example.domain.use_case.room.DeleteArticleFromDBUseCase
 import com.example.domain.use_case.room.IsArticleExistInDbUseCase
 import com.example.domain.use_case.search.SearchUseCase
+import com.example.domain.use_case.shared_pref.GetAppModeUseCase
 import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.response.LatestNewsResponseModelMapper
 import com.example.newsapp.ui.base.BaseViewModel
@@ -22,13 +23,14 @@ class SearchViewModel  @Inject constructor(
     private val addArticleToDBUseCase: AddArticleToDBUseCase,
     private val isArticleExistInDbUseCase: IsArticleExistInDbUseCase,
     private val deleteArticleFromDBUseCase: DeleteArticleFromDBUseCase,
-    private val searchUseCase: SearchUseCase
-
-) :  BaseViewModel(
+    private val searchUseCase: SearchUseCase,
+    private val getAppModeUseCase: GetAppModeUseCase,
+    ) :  BaseViewModel(
     stateListener,
     addArticleToDBUseCase,
     isArticleExistInDbUseCase,
-    deleteArticleFromDBUseCase
+    deleteArticleFromDBUseCase,
+    getAppModeUseCase
 ) {
      val searchResults: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
      val noInternet: SingleLiveEvent<Boolean> = SingleLiveEvent()
