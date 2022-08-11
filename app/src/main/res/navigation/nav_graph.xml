@@ -9,12 +9,29 @@
         android:id="@+id/homeFragment"
         android:name="com.example.newsapp.ui.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_newsDetailsFragment"
+            app:destination="@id/newsDetailsFragment" >
+            <argument
+                android:name="articleModel"
+                app:argType="com.example.newsapp.model.home.ArticleModel" />
+        </action>
+
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.newsapp.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_newsDetailsFragment"
+            app:destination="@id/newsDetailsFragment">
+            <argument
+                android:name="articleModel"
+                app:argType="com.example.newsapp.model.home.ArticleModel" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.newsapp.ui.settings.SettingsFragment"
@@ -24,6 +41,31 @@
         android:id="@+id/bookmarkFragment"
         android:name="com.example.newsapp.ui.bookmark.BookmarkFragment"
         android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+        tools:layout="@layout/fragment_bookmark" >
+        <action
+            android:id="@+id/action_bookmarkFragment_to_newsDetailsFragment"
+            app:destination="@id/newsDetailsFragment" >
+            <argument
+                android:name="articleModel"
+                app:argType="com.example.newsapp.model.home.ArticleModel" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/newsDetailsFragment"
+        android:name="com.example.newsapp.ui.news_details.NewsDetailsFragment"
+        android:label="NewsDetailsFragment" >
+        <action
+            android:id="@+id/action_newsDetailsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment">
+            <argument
+                android:name="url"
+                app:argType="string" />
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.newsapp.ui.web_view.WebViewFragment"
+        android:label="WebViewFragment" />
 
 </navigation>

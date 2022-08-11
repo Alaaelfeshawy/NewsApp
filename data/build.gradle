@@ -53,6 +53,11 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 
+    //For runBlockingTest, CoroutineDispatcher etc.
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
+    //For InstantTaskExecutorRule
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     def life_cycle_version = "2.4.1"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${life_cycle_version}"
@@ -60,10 +65,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${life_cycle_version}"
 
     // Room
-    def room_version = "2.4.2"
+    def room_version = "2.4.3"
     implementation "androidx.room:room-runtime:${room_version}"
     kapt"androidx.room:room-compiler:${room_version}"
-    implementation"androidx.room:room-rxjava2:${room_version}"
+    implementation 'androidx.room:room-ktx:2.4.3'
+//    implementation"androidx.room:room-rxjava2:${room_version}"
 
     //hilt
      def hilt_version = "2.42"
