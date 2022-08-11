@@ -9,11 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#faf9fa</color>
 
-    <color name="background">#FFFFFFFF</color>
-    <color name="textColor">#FF000000</color>
-    <color name="navigation_bottom_color">#FFFFFFFF</color>
+    <color name="background">#323232</color>
+    <color name="textColor">#FFFFFFFF</color>
+    <color name="navigation_bottom_color">@color/cardview_dark_background</color>
     <color name="selected_navigation_icon">#FF9E16</color>
-    <color name="un_selected_navigation_icon">@color/cardview_dark_background</color>
+    <color name="un_selected_navigation_icon">#FFFFFFFF</color>
     <color name="line">#D3D3D3</color>
-    <color name="empty_result">#979A9A</color>
+    <color name="empty_result">#FFFFFFFF</color>
 </resources>

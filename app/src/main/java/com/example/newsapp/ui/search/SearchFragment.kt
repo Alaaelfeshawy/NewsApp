@@ -72,6 +72,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             override fun afterTextChanged(s: Editable) {
             }
         })
+        if (viewModel.getAppMode()){
+            binding.searchImage.setImageDrawable(requireContext().getDrawable(R.drawable.search_white_ic))
+        }else{
+            binding.searchImage.setImageDrawable(requireContext().getDrawable(R.drawable.search))
+        }
     }
 
     override fun viewModelSetup() {

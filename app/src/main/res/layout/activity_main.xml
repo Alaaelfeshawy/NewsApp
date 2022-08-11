@@ -28,8 +28,8 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        app:titleTextColor="@color/black"
+                        android:background="@color/navigation_bottom_color"
+                        app:titleTextColor="@color/textColor"
                         app:popupTheme="@style/AppTheme.PopupOverlay"
                         />
                 </com.google.android.material.appbar.AppBarLayout>
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
-                android:background="?android:attr/windowBackground"
+                android:background="@color/navigation_bottom_color"
                 app:menu="@menu/nav_bottom_menu"
                 app:itemIconTint="@drawable/nav_bottom_icon_selector"
                 app:labelVisibilityMode="unlabeled"

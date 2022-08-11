@@ -46,6 +46,11 @@ class BookmarkFragment :  BaseFragment<FragmentBookmarkBinding>() {
     override fun viewSetup() {
         _binding = viewDataBinding
         binding.bookmarkRecyclerView.adapter = adapter
+        if (viewModel.getAppMode()){
+            binding.favoriteImage.setImageDrawable(requireContext().getDrawable(R.drawable.heart_white_ic))
+        }else{
+            binding.favoriteImage.setImageDrawable(requireContext().getDrawable(R.drawable.favourite))
+        }
     }
 
     override fun viewModelSetup() {

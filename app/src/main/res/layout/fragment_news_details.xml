@@ -10,11 +10,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/background"
         >
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -76,7 +77,7 @@
                         android:layout_height="wrap_content"
                         tools:text="TEXT"
                         android:textSize="18dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:layout_marginTop="24dp"
                         android:layout_marginStart="18dp"
                         android:layout_marginEnd="18dp"

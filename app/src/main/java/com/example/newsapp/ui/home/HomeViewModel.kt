@@ -15,6 +15,7 @@ import com.example.domain.use_case.home.GetTopNewsUseCase
 import com.example.domain.use_case.room.AddArticleToDBUseCase
 import com.example.domain.use_case.room.DeleteArticleFromDBUseCase
 import com.example.domain.use_case.room.IsArticleExistInDbUseCase
+import com.example.domain.use_case.shared_pref.GetAppModeUseCase
 import com.example.newsapp.databinding.TopNewsItemBinding
 import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.response.LatestNewsResponseModelMapper
@@ -34,13 +35,15 @@ class HomeViewModel  @Inject constructor(
     private val getTopNewsUseCase: GetTopNewsUseCase,
     private val addArticleToDBUseCase: AddArticleToDBUseCase,
     private val isArticleExistInDbUseCase: IsArticleExistInDbUseCase,
-    private val deleteArticleFromDBUseCase: DeleteArticleFromDBUseCase
+    private val deleteArticleFromDBUseCase: DeleteArticleFromDBUseCase,
+    private val getAppModeUseCase: GetAppModeUseCase,
 
 ) :  BaseViewModel(
     stateListener,
     addArticleToDBUseCase,
     isArticleExistInDbUseCase,
-    deleteArticleFromDBUseCase
+    deleteArticleFromDBUseCase,
+    getAppModeUseCase
 ) {
      val homeData: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
      val topNews: SingleLiveEvent<List<ArticleModel>> = SingleLiveEvent()
@@ -97,6 +100,4 @@ class HomeViewModel  @Inject constructor(
             },
         )
     }
-
-
 }

@@ -4,8 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.data.repository.PrefsRepository
 import com.example.data.source.local.room.AppDatabase
 import com.example.data.source.local.room.dao.article.ArticleDao
+import com.example.data.source.local.shared_prefs.AppPreferencesHelper
+import com.example.data.source.local.shared_prefs.PreferencesHelper
+import com.example.domain.repository.IPrefsRepository
 import com.example.domain.util.AppConstants
 import dagger.Module
 import dagger.Provides
@@ -48,9 +52,28 @@ class LocalDataModule {
         }
     }
 
+    @Provides
+    @Named("pref_name")
+    fun providerSharedPrefName(): String {
+        return AppConstants.SHARED_PREFERENCE
+    }
+    @Provides
+    @Singleton
+    fun providerAppPrefs(
+        @ApplicationContext context: Context?,
+        @Named("pref_name") name: String?
+    ): PreferencesHelper {
+        return AppPreferencesHelper(context!!, name)
+    }
     @Singleton
     @Provides
     fun provideComboDao(appDatabase: AppDatabase): ArticleDao {
         return appDatabase.articleDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSharedPref(prefsRepository: PrefsRepository): IPrefsRepository {
+        return prefsRepository
     }
 }
