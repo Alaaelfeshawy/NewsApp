@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers
 data class TopNewsResponseEntity (
     var status :String ? =null,
     var source : String ?= null,
-    var sortByLString: String ? =null,
+    var sortBy: String ? =null,
     var articles: List<ArticleEntity> ? =null
 )
 

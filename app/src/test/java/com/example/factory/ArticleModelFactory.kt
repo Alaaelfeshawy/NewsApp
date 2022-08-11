@@ -8,6 +8,8 @@ object ArticleModelFactory {
 
     fun generateDataForArticleModel(): ArticleModel {
         return ArticleModel(
+            1,
+            SourceModelFactory.generateDataForSourceModel(),
             "author",
             "title",
             "des",
@@ -19,6 +21,8 @@ object ArticleModelFactory {
 
     fun generateDataForArticleDomain(): Article {
         return Article(
+            1,
+            SourceModelFactory.generateDataForSourceDomain(),
             "author",
             "title",
             "des",

@@ -14,8 +14,6 @@ data class LatestNewsResponseModel (
 @Mapper
 interface LatestNewsResponseModelMapper {
     fun fromDomain(domain: LatestNewsResponse?): LatestNewsResponseModel
-    fun fromListDomain(domain: List<LatestNewsResponse?>?): List<LatestNewsResponseModel>
-    fun toDomain(data: LatestNewsResponseModel?): LatestNewsResponse
 
     companion object {
         var mapper: LatestNewsResponseModelMapper =
