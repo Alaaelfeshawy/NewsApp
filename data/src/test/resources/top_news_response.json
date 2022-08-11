@@ -1,0 +1,20 @@
+{
+  "status": "status",
+  "source": "source",
+  "sortBy": "sortBy",
+  "articles": [
+    {
+      "id": 1,
+      "source": {
+        "id": "id",
+        "name": "name"
+      },
+      "author": "author",
+      "title": "title",
+      "description": "des",
+      "url": "url",
+      "urlToImage": "urlToImage",
+      "publishedAt": "publishedAt"
+    }
+  ]
+}
