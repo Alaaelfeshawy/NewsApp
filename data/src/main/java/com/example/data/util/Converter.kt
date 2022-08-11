@@ -9,7 +9,7 @@ class ArticleDataConverter {
         return ArticleData(
             articleModel.id,
             articleModel.author,
-            articleModel.title,
+            articleModel.title ?: "",
             articleModel.description,
             articleModel.url,
             articleModel.urlToImage,
