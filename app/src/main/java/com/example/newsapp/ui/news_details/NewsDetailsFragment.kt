@@ -52,15 +52,6 @@ class NewsDetailsFragment : BaseFragment<FragmentNewsDetailsBinding>() {
                 }
             }
         }
-    }
-
-    override fun viewModelSetup() {
-        viewModel.stateListener.success.observe(viewLifecycleOwner){
-            it?.let {
-                makeToast(it, Toast.LENGTH_LONG)
-            }
-        }
-        val article = ArticleModelMapper.mapper.toDomain(articleModel)
         article?.let { it1 ->
             viewModel.isArticleExistInDb(it1) {
                 if (it) {
@@ -68,6 +59,14 @@ class NewsDetailsFragment : BaseFragment<FragmentNewsDetailsBinding>() {
                 } else {
                     binding.bookmarkIcon.setImageDrawable(requireContext().getDrawable(R.drawable.ic_e_bookmark_border))
                 }
+            }
+        }
+    }
+
+    override fun viewModelSetup() {
+        viewModel.stateListener.success.observe(viewLifecycleOwner){
+            it?.let {
+                makeToast(it, Toast.LENGTH_LONG)
             }
         }
     }

@@ -10,7 +10,7 @@
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="match_parent">
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/bookmark_recycler_view"
           android:layout_width="match_parent"
@@ -22,5 +22,34 @@
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
           />
+
+      <LinearLayout
+          android:id="@+id/empty_list"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:visibility="gone"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          >
+          <ImageView
+              android:layout_width="match_parent"
+              android:layout_height="150dp"
+              android:src="@drawable/favourite"
+              />
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/no_favourite_news_yet"
+              android:textAlignment="center"
+              android:layout_marginTop="8dp"
+              android:textSize="28dp"
+              android:textColor="@color/black"
+              android:textStyle="bold"
+              />
+
+      </LinearLayout>
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

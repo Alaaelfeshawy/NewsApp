@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.bookmark
 
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -53,7 +54,14 @@ class BookmarkFragment :  BaseFragment<FragmentBookmarkBinding>() {
 
     override fun viewModelSetup() {
         viewModel.articles.observe(viewLifecycleOwner) {
-            it?.let { it1 -> adapter.setDataList(it1) }
+            if (!it.isNullOrEmpty()){
+                binding.bookmarkRecyclerView.visibility=View.VISIBLE
+                binding.emptyList.visibility=View.GONE
+                adapter.setDataList(it)
+            }else{
+                binding.bookmarkRecyclerView.visibility=View.GONE
+                binding.emptyList.visibility=View.VISIBLE
+            }
         }
         viewModel.stateListener.success.observe(viewLifecycleOwner){
             it?.let {
