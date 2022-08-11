@@ -12,14 +12,12 @@ abstract class UseCaseWithParams<T, Params>() {
         val results = ArrayList<T>()
         scope.launch {
             supervisorScope {
-//                        val task = async {run(params[0])}
                         try {
                              params.forEach {
                                val result =  async { run(it) }.await()
-                                 results.add(result)
+                               results.add(result)
                             }
                             onResult.onSuccess(results)
-//                            onResult.onSuccess(task.await())
                         } catch (e: Throwable) {
                             e.printStackTrace()
                             onResult.onError(traceErrorException(e))
