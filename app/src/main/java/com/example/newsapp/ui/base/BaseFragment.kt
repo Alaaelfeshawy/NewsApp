@@ -60,10 +60,6 @@ abstract class BaseFragment<T : ViewDataBinding?> : Fragment() {
         baseActivity?.hideKeyboard()
     }
 
-    fun makeToast(message:String , length:Int){
-        Toast.makeText(baseActivity, message , length).show()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         viewDataBinding?.unbind()
