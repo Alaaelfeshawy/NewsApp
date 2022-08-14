@@ -3,6 +3,7 @@ package com.example.newsapp.ui.util
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
 import com.example.domain.model.home.Article
@@ -65,6 +66,10 @@ object Util {
     fun <T : ViewDataBinding> checkIfExistAndUpdateUI(article: Article, binding: T ,
                                                       viewModel : BaseViewModel , context: Context){
         viewModel.isArticleExistInDbAnUpdate(article){ updateBookmarkIcon(it,binding,context) }
+    }
+
+    fun makeToast(context: Context,message:String , length:Int){
+        Toast.makeText(context, message , length).show()
     }
 
 }
