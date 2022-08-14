@@ -9,8 +9,6 @@ import com.example.domain.use_case.room.AddArticleToDBUseCase
 import com.example.domain.use_case.room.DeleteArticleFromDBUseCase
 import com.example.domain.use_case.room.IsArticleExistInDbUseCase
 import com.example.domain.use_case.shared_pref.GetAppModeUseCase
-import com.example.newsapp.util.ErrorMessageUtils
-import com.example.newsapp.util.SingleLiveEvent
 import com.example.newsapp.util.StateListener
 
 abstract class BaseViewModel(

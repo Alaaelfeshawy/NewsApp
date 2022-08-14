@@ -15,6 +15,7 @@ import com.example.newsapp.ui.base.BaseFragment
 import com.example.newsapp.ui.home.view_holder.LatestNewsViewHolder
 import com.example.newsapp.ui.home.view_holder.TopNewsViewHolder
 import com.example.newsapp.ui.util.Util
+import com.example.newsapp.ui.util.Util.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,7 +67,7 @@ class BookmarkFragment :  BaseFragment<FragmentBookmarkBinding>() {
         }
         viewModel.stateListener.success.observe(viewLifecycleOwner){
             it?.let {
-               makeToast(it,Toast.LENGTH_LONG)
+               makeToast(requireContext(),it,Toast.LENGTH_LONG)
             }
         }
     }
