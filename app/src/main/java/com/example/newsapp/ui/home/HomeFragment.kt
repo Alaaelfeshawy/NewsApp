@@ -6,7 +6,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.domain.model.home.Article
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.databinding.LatestNewsItemBinding
@@ -15,48 +14,34 @@ import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.ArticleModelMapper
 import com.example.newsapp.ui.base.BaseAdapter
 import com.example.newsapp.ui.base.BaseFragment
-import com.example.newsapp.ui.bookmark.BookmarkFragmentDirections
 import com.example.newsapp.ui.home.view_holder.LatestNewsViewHolder
 import com.example.newsapp.ui.home.view_holder.TopNewsViewHolder
 import com.example.newsapp.ui.util.Util
-import com.example.newsapp.ui.util.Util.checkIfExistAndUpdateUI
-import com.example.newsapp.ui.util.Util.updateUI
+import com.example.newsapp.ui.util.Util.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.OnRefreshListener  {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.OnRefreshListener , BaseAdapter.UpdateUiListener  {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(requireActivity())[HomeViewModel::class.java]
     }
     private val adapter: BaseAdapter<ArticleModel, LatestNewsItemBinding> by lazy {
-        BaseAdapter(R.layout.latest_news_item,{
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(it))
-        }){
-            LatestNewsViewHolder(it , { model , binding->
-                val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { articleModel ->checkIfExistAndUpdateUI(articleModel,binding,viewModel,requireContext())}
-            }){ model , binding->
-                val article = ArticleModelMapper.mapper.toDomain(model)
-                article?.let { data -> updateUI(data, binding, viewModel,requireContext())}
-            }
+        BaseAdapter(R.layout.latest_news_item, {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(
+                it))
+        }) {
+            LatestNewsViewHolder(it, this)
         }
     }
 
     private val topNewsAdapter: BaseAdapter<ArticleModel, TopNewsItemBinding> by lazy {
-        BaseAdapter(R.layout.top_news_item,{
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(it))
-        }){
-            TopNewsViewHolder(it,requireContext(),{ model , binding->
-                ArticleModelMapper.mapper.toDomain(model)?.let {
-                    checkIfExistAndUpdateUI(it,binding,viewModel,requireContext())
-                }
-            }){ model , binding->
-               ArticleModelMapper.mapper.toDomain(model)?.let {
-                    updateUI(it, binding,viewModel,requireContext())
-                }
-            }
+        BaseAdapter(R.layout.top_news_item, {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(
+                it))
+        }) {
+            TopNewsViewHolder(it, this)
         }
     }
 
@@ -67,6 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
         _binding = viewDataBinding
         viewModel.getLatestNews()
         viewModel.getTopNews()
+        adapter.setUpdateUiListener(this)
         binding.articlesRecyclerView.adapter = adapter
         binding.topNewRecyclerView.adapter = topNewsAdapter
         binding.tryAgain.setOnClickListener {
@@ -110,12 +96,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
         }
         viewModel.stateListener.errorMessage.observe(viewLifecycleOwner){
             message -> message?.let {
-            makeToast(it,Toast.LENGTH_SHORT)
+            makeToast(requireContext(),it,Toast.LENGTH_SHORT)
             }
         }
         viewModel.stateListener.success.observe(viewLifecycleOwner){
                 message -> message?.let {
-            makeToast(it,Toast.LENGTH_SHORT)
+            makeToast(requireContext(),it,Toast.LENGTH_SHORT)
         }
         }
         viewModel.noInternet.observe(viewLifecycleOwner){
@@ -136,5 +122,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() , SwipeRefreshLayout.On
         viewModel.getLatestNews()
         viewModel.getTopNews()
         binding.mainSwipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun <T : ViewDataBinding> updateUI(model: ArticleModel, binding: T) {
+        val article = ArticleModelMapper.mapper.toDomain(model)
+        article?.let {
+            viewModel.isArticleExistInDb(it){
+                Util.updateBookmarkIcon(it, binding, requireContext())
+            }
+        }
+    }
+
+    override fun <T : ViewDataBinding> checkIfExistAndUpdateUI(
+        model: ArticleModel, binding: T) {
+        val article = ArticleModelMapper.mapper.toDomain(model)
+        article?.let {
+            viewModel.isArticleExistInDbAnUpdate(it){
+                Util.updateBookmarkIcon(it,
+                    binding,
+                    requireContext())
+            }
+        }
     }
 }

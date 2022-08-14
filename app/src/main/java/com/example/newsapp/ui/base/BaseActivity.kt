@@ -29,9 +29,6 @@ abstract class BaseActivity<T : ViewDataBinding?> : AppCompatActivity() {
         }
     }
 
-    fun makeToast(message:String , length:Int){
-        Toast.makeText(baseContext, message , length).show()
-    }
     public override fun onDestroy() {
         super.onDestroy()
         viewDataBinding?.unbind()
