@@ -42,7 +42,7 @@ object Util {
         return dateTime.format(formatter2)
     }
 
-    private fun <T : ViewDataBinding> updateBookmarkIcon(value : Boolean, binding: T, context: Context){
+    fun <T : ViewDataBinding> updateBookmarkIcon(value : Boolean, binding: T, context: Context){
         if (value){
             when(binding){
                 is LatestNewsItemBinding ->binding.bookmark.setImageDrawable(context.getDrawable(R.drawable.ic_fill_bookmark))
@@ -55,17 +55,6 @@ object Util {
                 is TopNewsItemBinding ->binding.bookmark.setImageDrawable(context.getDrawable(R.drawable.ic_e_bookmark_border))
             }
         }
-    }
-
-    fun <T : ViewDataBinding> updateUI(article: Article, binding: T , viewModel : BaseViewModel , context: Context){
-        viewModel.isArticleExistInDb(article){
-            updateBookmarkIcon(it,binding , context)
-        }
-    }
-
-    fun <T : ViewDataBinding> checkIfExistAndUpdateUI(article: Article, binding: T ,
-                                                      viewModel : BaseViewModel , context: Context){
-        viewModel.isArticleExistInDbAnUpdate(article){ updateBookmarkIcon(it,binding,context) }
     }
 
     fun makeToast(context: Context,message:String , length:Int){

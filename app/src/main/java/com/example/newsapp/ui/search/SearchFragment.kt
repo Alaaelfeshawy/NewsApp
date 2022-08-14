@@ -7,25 +7,22 @@ import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.domain.model.home.Article
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentSearchBinding
 import com.example.newsapp.databinding.LatestNewsItemBinding
-import com.example.newsapp.databinding.TopNewsItemBinding
 import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.ArticleModelMapper
 import com.example.newsapp.ui.base.BaseAdapter
 import com.example.newsapp.ui.base.BaseFragment
+import com.example.newsapp.ui.home.HomeFragmentDirections
 import com.example.newsapp.ui.home.view_holder.LatestNewsViewHolder
 import com.example.newsapp.ui.util.Util
-import com.example.newsapp.ui.util.Util.checkIfExistAndUpdateUI
 import com.example.newsapp.ui.util.Util.makeToast
-import com.example.newsapp.ui.util.Util.updateUI
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentSearchBinding>() {
+class SearchFragment : BaseFragment<FragmentSearchBinding>() , BaseAdapter.UpdateUiListener {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -33,19 +30,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         ViewModelProvider(this)[SearchViewModel::class.java]
     }
     private val adapter: BaseAdapter<ArticleModel, LatestNewsItemBinding> by lazy {
-        BaseAdapter(R.layout.latest_news_item,{
-            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToNewsDetailsFragment(it))
-        }){
-            LatestNewsViewHolder(it , { model , binding->
-               ArticleModelMapper.mapper.toDomain(model)?.let {
-                    checkIfExistAndUpdateUI(it,binding ,
-                        viewModel , requireContext())
-                }
-            }){ model , binding->
-                 ArticleModelMapper.mapper.toDomain(model)?.let {
-                    updateUI(it, binding,viewModel , requireContext())
-                }
-            }
+        BaseAdapter(R.layout.latest_news_item, {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewsDetailsFragment(
+                it))
+        }) {
+            LatestNewsViewHolder(it, this)
         }
     }
 
@@ -54,6 +43,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun viewSetup() {
         _binding = viewDataBinding
+        adapter.setUpdateUiListener(this)
         binding.searchRecyclerView.adapter = adapter
         binding.tryAgain.setOnClickListener {
             binding.noInternetLayout.visibility= View.GONE
@@ -127,6 +117,27 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
+    override fun <T : ViewDataBinding> updateUI(model: ArticleModel, binding: T) {
+        val article = ArticleModelMapper.mapper.toDomain(model)
+        article?.let {
+            viewModel.isArticleExistInDb(it){
+                Util.updateBookmarkIcon(it, binding, requireContext())
+            }
+        }
+    }
+
+    override fun <T : ViewDataBinding> checkIfExistAndUpdateUI(
+        model: ArticleModel,
+        binding: T) {
+        val article = ArticleModelMapper.mapper.toDomain(model)
+        article?.let {
+            viewModel.isArticleExistInDbAnUpdate(it){
+                Util.updateBookmarkIcon(it,
+                    binding,
+                    requireContext())
+            }
+        }
+    }
 
 
 }
