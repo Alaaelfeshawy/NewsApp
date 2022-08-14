@@ -12,6 +12,7 @@ import com.example.newsapp.model.home.ArticleModel
 import com.example.newsapp.model.home.ArticleModelMapper
 import com.example.newsapp.ui.base.BaseFragment
 import com.example.newsapp.ui.util.Util
+import com.example.newsapp.ui.util.Util.makeToast
 
 @AndroidEntryPoint
 class NewsDetailsFragment : BaseFragment<FragmentNewsDetailsBinding>() {
@@ -66,7 +67,7 @@ class NewsDetailsFragment : BaseFragment<FragmentNewsDetailsBinding>() {
     override fun viewModelSetup() {
         viewModel.stateListener.success.observe(viewLifecycleOwner){
             it?.let {
-                makeToast(it, Toast.LENGTH_LONG)
+                makeToast(requireContext(),it, Toast.LENGTH_LONG)
             }
         }
     }

@@ -19,6 +19,7 @@ import com.example.newsapp.ui.base.BaseFragment
 import com.example.newsapp.ui.home.view_holder.LatestNewsViewHolder
 import com.example.newsapp.ui.util.Util
 import com.example.newsapp.ui.util.Util.checkIfExistAndUpdateUI
+import com.example.newsapp.ui.util.Util.makeToast
 import com.example.newsapp.ui.util.Util.updateUI
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -103,12 +104,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
         viewModel.stateListener.errorMessage.observe(viewLifecycleOwner){
                 message -> message?.let {
-            makeToast(it, Toast.LENGTH_SHORT)
+            makeToast(requireContext(),it, Toast.LENGTH_SHORT)
         }
         }
         viewModel.stateListener.success.observe(viewLifecycleOwner){
                 message -> message?.let {
-            makeToast(it, Toast.LENGTH_SHORT)
+            makeToast(requireContext(),it, Toast.LENGTH_SHORT)
         }
         }
         viewModel.noInternet.observe(viewLifecycleOwner){
